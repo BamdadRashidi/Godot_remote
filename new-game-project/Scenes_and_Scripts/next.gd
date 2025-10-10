@@ -1,19 +1,19 @@
 extends Button
 
+var socket = WebSocketPeer.new()
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
-	pass # Replace with function body.
+	socket.connect_to_url("ws://") #insert IP address here
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta: float) -> void:
 	pass
 
 
 func _on_pressed() -> void:
-	print("next slide")
-
-
-func _on_previous_pressed() -> void:
-	print("previous slide")
+	socket.poll()
+	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
+		socket.send_text("next")
+	

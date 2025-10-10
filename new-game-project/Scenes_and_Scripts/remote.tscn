@@ -27,6 +27,5 @@ offset_right = 590.0
 offset_bottom = 380.0
 script = ExtResource("2_q2erf")
 
-[connection signal="pressed" from="quit" to="quit" method="_on_pressed"]
 [connection signal="pressed" from="next" to="next" method="_on_pressed"]
-[connection signal="pressed" from="previous" to="next" method="_on_previous_pressed"]
+[connection signal="pressed" from="previous" to="previous" method="_on_pressed"]
