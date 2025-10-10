@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyb1u4vqbrjmj"]
+
+[ext_resource type="Script" path="res://Scenes_and_Scripts/next.gd" id="1_2s7pg"]
+[ext_resource type="Script" path="res://Scenes_and_Scripts/quit.gd" id="1_mswdg"]
+[ext_resource type="Script" path="res://Scenes_and_Scripts/previous.gd" id="2_q2erf"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="quit" type="Button" parent="."]
+offset_left = 558.0
+offset_top = -4.0
+offset_right = 566.0
+offset_bottom = 380.0
+script = ExtResource("1_mswdg")
+
+[node name="next" type="Button" parent="."]
+offset_left = 570.0
+offset_top = -4.0
+offset_right = 578.0
+offset_bottom = 380.0
+script = ExtResource("1_2s7pg")
+
+[node name="previous" type="Button" parent="."]
+offset_left = 582.0
+offset_top = -4.0
+offset_right = 590.0
+offset_bottom = 380.0
+script = ExtResource("2_q2erf")
+
+[connection signal="pressed" from="quit" to="quit" method="_on_pressed"]
+[connection signal="pressed" from="next" to="next" method="_on_pressed"]
+[connection signal="pressed" from="previous" to="next" method="_on_previous_pressed"]
