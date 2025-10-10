@@ -1,31 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyb1u4vqbrjmj"]
+[gd_scene load_steps=5 format=3 uid="uid://dyb1u4vqbrjmj"]
 
 [ext_resource type="Script" path="res://Scenes_and_Scripts/next.gd" id="1_2s7pg"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/quit.gd" id="1_mswdg"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/previous.gd" id="2_q2erf"]
+[ext_resource type="Script" path="res://Scenes_and_Scripts/endslideshow.gd" id="4_tgtxy"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="quit" type="Button" parent="."]
-offset_left = 558.0
-offset_top = -4.0
-offset_right = 566.0
-offset_bottom = 380.0
+offset_left = 545.0
+offset_top = 180.0
+offset_right = 647.0
+offset_bottom = 279.0
 script = ExtResource("1_mswdg")
 
 [node name="next" type="Button" parent="."]
-offset_left = 570.0
-offset_top = -4.0
-offset_right = 578.0
-offset_bottom = 380.0
+offset_left = 699.0
+offset_top = 178.0
+offset_right = 828.0
+offset_bottom = 284.0
 script = ExtResource("1_2s7pg")
 
 [node name="previous" type="Button" parent="."]
-offset_left = 582.0
-offset_top = -4.0
-offset_right = 590.0
-offset_bottom = 380.0
+offset_left = 361.0
+offset_top = 184.0
+offset_right = 499.0
+offset_bottom = 287.0
 script = ExtResource("2_q2erf")
+
+[node name="endslideshow" type="Button" parent="."]
+offset_left = 552.0
+offset_top = 328.0
+offset_right = 650.0
+offset_bottom = 421.0
+script = ExtResource("4_tgtxy")
 
 [connection signal="pressed" from="next" to="next" method="_on_pressed"]
 [connection signal="pressed" from="previous" to="previous" method="_on_pressed"]
+[connection signal="pressed" from="endslideshow" to="endslideshow" method="_on_pressed"]
