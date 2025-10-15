@@ -1,34 +1,37 @@
-import socketserver
+import socket
 import asyncio
 import pyautogui
-import websockets
+import ctypes
 
-#TODO: give internet permissions and all while exporting and resize the project to fit into your mobile phone.
+UDP_ID = "YOUR IP"
+UDP_PORT = 4307
 
-async def handler(websocket):
+
+socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+socket.bind((UDP_ID,UDP_PORT))
+print("listening... ")
+
+
+while True:
+    data, address = socket.recvfrom(1024)
+    message = data.decode().strip
     
-    #when we get these messages from godot, we will activate a keyboard input.
-    async for message in websocket:
-        match(message):
-            case 'next':
-                pyautogui.press('right')
-                print('right')
-            case 'previous':
-                pyautogui.press('left')
-                print('left')
-            case 'quit':
-                pyautogui.press('esc')
-                print('exit')
-                
-                
-                
-async def main():
-    port = 4307
-    async with websockets.serve(handler,"INSERT IP", port):
-        print('server running')
-        await asyncio.Future()
-
-
-
-
-asyncio.run(main())
+    match(message):
+        case "quit":
+            print("quit")
+            pyautogui.press('esc')
+        case "next":
+            print("right")
+            pyautogui.press('right')
+        case "previous":
+            print("left")
+            pyautogui.press('left')
+        case "lON":
+            print("show")
+            ctypes.windll.user32.ShowCursor(True)
+        case "lOFF":
+            print("hide")
+            ctypes.windll.user32.ShowCursor(False)
+            
+        #TODO: to be added (mouse movement)
+            

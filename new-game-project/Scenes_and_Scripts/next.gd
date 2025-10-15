@@ -1,22 +1,13 @@
 extends Button
 
-var socket = WebSocketPeer.new()
 
-
+var peer = PacketPeerUDP.new()
 func _ready() -> void:
-	socket.connect_to_url("ws://INSERT IP:4307") #insert IP address here
-	
-
-
-
-func _process(delta: float) -> void:
-	pass
+	peer.set_dest_address("",4307)
+	peer.set_broadcast_enabled(true)
 
 
 func _on_pressed() -> void:
-	socket.poll()
-	print('nextUNCON')
-	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
-		print('next')
-		socket.send_text("next")
+	print('next')
+	peer.put_packet("next".to_utf8_buffer())
 	

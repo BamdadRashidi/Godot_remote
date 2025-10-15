@@ -1,32 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyb1u4vqbrjmj"]
+[gd_scene load_steps=9 format=3 uid="uid://dyb1u4vqbrjmj"]
 
 [ext_resource type="Script" path="res://Scenes_and_Scripts/next.gd" id="1_2s7pg"]
+[ext_resource type="Texture2D" uid="uid://i7rijgl3sc38" path="res://Icons/quit.png" id="1_g6lrg"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/quit.gd" id="1_mswdg"]
+[ext_resource type="Texture2D" uid="uid://dof500hqa0875" path="res://Icons/next.png" id="2_m3uh4"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/previous.gd" id="2_q2erf"]
+[ext_resource type="Texture2D" uid="uid://c4uhg28h3jee3" path="res://Icons/prev.png" id="3_43kn0"]
+[ext_resource type="Script" path="res://Scenes_and_Scripts/laseractivator.gd" id="4_idtk3"]
+[ext_resource type="Texture2D" uid="uid://dxkv0w0yuxgxi" path="res://Icons/laser.png" id="7_asvw1"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="quit" type="Button" parent="."]
-offset_left = 545.0
-offset_top = 180.0
-offset_right = 647.0
-offset_bottom = 279.0
+offset_left = 869.0
+offset_top = 59.0
+offset_right = 1051.0
+offset_bottom = 241.0
+icon = ExtResource("1_g6lrg")
 script = ExtResource("1_mswdg")
 
 [node name="next" type="Button" parent="."]
-offset_left = 699.0
-offset_top = 178.0
-offset_right = 828.0
-offset_bottom = 284.0
+offset_left = 345.0
+offset_top = 1447.0
+offset_right = 817.0
+offset_bottom = 1875.0
+icon = ExtResource("2_m3uh4")
 script = ExtResource("1_2s7pg")
 
 [node name="previous" type="Button" parent="."]
-offset_left = 361.0
-offset_top = 184.0
-offset_right = 499.0
-offset_bottom = 287.0
+offset_left = 266.0
+offset_top = 311.0
+offset_right = 786.0
+offset_bottom = 743.0
+icon = ExtResource("3_43kn0")
 script = ExtResource("2_q2erf")
+
+[node name="laseractivator" type="Button" parent="."]
+offset_left = 380.0
+offset_top = 861.0
+offset_right = 758.0
+offset_bottom = 1288.0
+icon = ExtResource("7_asvw1")
+script = ExtResource("4_idtk3")
 
 [connection signal="pressed" from="quit" to="quit" method="_on_pressed"]
 [connection signal="pressed" from="next" to="next" method="_on_pressed"]
 [connection signal="pressed" from="previous" to="previous" method="_on_pressed"]
+[connection signal="button_down" from="laseractivator" to="laseractivator" method="_on_button_down"]
+[connection signal="button_up" from="laseractivator" to="laseractivator" method="_on_button_up"]

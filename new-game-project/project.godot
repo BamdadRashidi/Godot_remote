@@ -15,6 +15,23 @@ run/main_scene="res://Scenes_and_Scripts/remote.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=2340
+window/stretch/mode="canvas_items"
+window/handheld/orientation=1
+
+[gui]
+
+common/snap_controls_to_pixels=false
+fonts/dynamic_fonts/use_oversampling=false
+
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+textures/stretch/scale=1.0
+textures/stretch/mode="canvas_items"
+textures/dynamic_fonts/use_oversampling=true
+textures/snap_controls_to_pixels=true
