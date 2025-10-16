@@ -6,16 +6,24 @@ import time
 
 UDP_ID = "0.0.0.0"
 UDP_PORT = 4307
-sensitivity = 100
-cursor_is_shown = False
 
 socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 socket.bind((UDP_ID,UDP_PORT))
 socket.setblocking(False)
 print("listening... ")
 
+cursor_is_shown = False
 pyautogui.FAILSAFE = False
 ctypes.windll.user32.ShowCursor(False)
+
+
+
+sensitivity = 800
+alpha = 0.2
+min_deadzone = 0.1
+max_deadzone = 0.45
+smooth_x = 0.0
+smooth_y = 0.0
 
 
 def hide_cursor():
@@ -62,8 +70,21 @@ while True:
 
             elif cursor_is_shown:
                 ax, ay, az = map(float, message.split(','))
-                x_movement = ax * sensitivity
-                y_movement = ay * sensitivity
+                smooth_x = (1 - alpha) * smooth_x + alpha * ax
+                smooth_y = (1 - alpha) * smooth_y + alpha * ay
+                
+                if abs(smooth_x) < min_deadzone:
+                    smooth_x = 0
+                if abs(smooth_y) < min_deadzone:
+                    smooth_y = 0
+                    
+                if abs(smooth_x) > max_deadzone:
+                    smooth_x *= max_deadzone / abs(smooth_x)
+                if abs(smooth_y) > max_deadzone:
+                    smooth_y *= max_deadzone / abs(smooth_y)
+
+                x_movement = (smooth_x ** 3) * sensitivity
+                y_movement = (smooth_y ** 3) * sensitivity
                 
                 if abs(x_movement) > 0.5 or abs(y_movement) > 0.5:
                     x, y = pyautogui.position()
@@ -75,6 +96,6 @@ while True:
             
         del message
         
-    time.sleep(0.05)
+    time.sleep(0.02)
     
             
