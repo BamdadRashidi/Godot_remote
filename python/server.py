@@ -16,12 +16,15 @@ cursor_is_shown = False
 pyautogui.FAILSAFE = False
 ctypes.windll.user32.ShowCursor(False)
 
+#TODO: has too much excessive up and down (triangular) movement that needs to be solved 
+# e.g: when i want to move dead straight left or right, it has to do that and not go up/down as well.
+# more accuracy while spinning
+# more accuracy and similarity to my hand movement (like a real laser pointer)
 
-
-sensitivity = 800
-alpha = 0.2
-min_deadzone = 0.1
-max_deadzone = 0.45
+sensitivity = 900
+alpha = 0.3
+min_deadzone = 0.37
+max_deadzone = 0.43
 smooth_x = 0.0
 smooth_y = 0.0
 

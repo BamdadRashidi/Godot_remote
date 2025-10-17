@@ -31,6 +31,7 @@ fonts/dynamic_fonts/use_oversampling=false
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.0509804, 0.0196078, 0.223529, 0.784314)
 textures/stretch/scale=1.0
 textures/stretch/mode="canvas_items"
 textures/dynamic_fonts/use_oversampling=true

@@ -1,50 +1,114 @@
-[gd_scene load_steps=9 format=3 uid="uid://dyb1u4vqbrjmj"]
+[gd_scene load_steps=12 format=3 uid="uid://dyb1u4vqbrjmj"]
 
 [ext_resource type="Script" path="res://Scenes_and_Scripts/next.gd" id="1_2s7pg"]
-[ext_resource type="Texture2D" uid="uid://i7rijgl3sc38" path="res://Icons/quit.png" id="1_g6lrg"]
+[ext_resource type="Texture2D" uid="uid://bsdr7q4dudi53" path="res://Icons/quit_low.png" id="1_iigok"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/quit.gd" id="1_mswdg"]
-[ext_resource type="Texture2D" uid="uid://dof500hqa0875" path="res://Icons/next.png" id="2_m3uh4"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/previous.gd" id="2_q2erf"]
-[ext_resource type="Texture2D" uid="uid://c4uhg28h3jee3" path="res://Icons/prev.png" id="3_43kn0"]
+[ext_resource type="Texture2D" uid="uid://cotpael4pf2rr" path="res://Icons/previous_low.png" id="2_wba4f"]
+[ext_resource type="Texture2D" uid="uid://v10tch8scenv" path="res://Icons/laser_low.png" id="4_ga8st"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/laseractivator.gd" id="4_idtk3"]
-[ext_resource type="Texture2D" uid="uid://dxkv0w0yuxgxi" path="res://Icons/laser.png" id="7_asvw1"]
+[ext_resource type="Texture2D" uid="uid://cgdbhpkdvsyrc" path="res://Icons/next_low.png" id="6_1rujm"]
+[ext_resource type="Script" path="res://Scenes_and_Scripts/submit_ip.gd" id="9_tbvx2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p1tva"]
+bg_color = Color(0, 0.3801, 0.255572, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_315sc"]
+bg_color = Color(0.758697, 0.60699, 0, 1)
 
 [node name="Node2D" type="Node2D"]
 
 [node name="quit" type="Button" parent="."]
-offset_left = 869.0
-offset_top = 59.0
-offset_right = 1051.0
-offset_bottom = 241.0
-icon = ExtResource("1_g6lrg")
+offset_left = 871.0
+offset_top = 46.0
+offset_right = 1029.0
+offset_bottom = 204.0
+icon = ExtResource("1_iigok")
 script = ExtResource("1_mswdg")
 
-[node name="next" type="Button" parent="."]
-offset_left = 345.0
-offset_top = 1447.0
-offset_right = 817.0
-offset_bottom = 1875.0
-icon = ExtResource("2_m3uh4")
-script = ExtResource("1_2s7pg")
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
 
-[node name="previous" type="Button" parent="."]
-offset_left = 266.0
-offset_top = 311.0
-offset_right = 786.0
-offset_bottom = 743.0
-icon = ExtResource("3_43kn0")
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = -6.0
+offset_top = 544.0
+offset_right = 1075.0
+offset_bottom = 801.0
+theme_override_constants/separation = 85
+alignment = 1
+
+[node name="previous" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("2_wba4f")
 script = ExtResource("2_q2erf")
 
-[node name="laseractivator" type="Button" parent="."]
-offset_left = 380.0
-offset_top = 861.0
-offset_right = 758.0
-offset_bottom = 1288.0
-icon = ExtResource("7_asvw1")
+[node name="laseractivator" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("4_ga8st")
 script = ExtResource("4_idtk3")
 
+[node name="next" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("6_1rujm")
+script = ExtResource("1_2s7pg")
+
+[node name="TextEdit" type="TextEdit" parent="Control"]
+layout_mode = 0
+offset_left = 71.0
+offset_top = 1003.0
+offset_right = 698.0
+offset_bottom = 1108.0
+theme_override_colors/background_color = Color(1, 1, 1, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.247059)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+placeholder_text = "Enter IP address here"
+
+[node name="submitIP" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 1000.0
+offset_right = 1003.0
+offset_bottom = 1045.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_p1tva")
+text = "Submit"
+script = ExtResource("9_tbvx2")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 857.0
+offset_right = 1004.0
+offset_bottom = 956.0
+theme_override_colors/font_color = Color(0.954458, 3.60981e-06, 1.34766e-06, 1)
+theme_override_font_sizes/font_size = 60
+text = "    Insert a valid IP (xxx.xxx.x.x)"
+
+[node name="Timer" type="Timer" parent="Control/Label"]
+wait_time = 3.0
+one_shot = true
+
+[node name="eraseIp" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 753.0
+offset_top = 1057.0
+offset_right = 1003.0
+offset_bottom = 1107.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_315sc")
+text = "Erase IP"
+
 [connection signal="pressed" from="quit" to="quit" method="_on_pressed"]
-[connection signal="pressed" from="next" to="next" method="_on_pressed"]
-[connection signal="pressed" from="previous" to="previous" method="_on_pressed"]
-[connection signal="button_down" from="laseractivator" to="laseractivator" method="_on_button_down"]
-[connection signal="button_up" from="laseractivator" to="laseractivator" method="_on_button_up"]
+[connection signal="pressed" from="Control/HBoxContainer/previous" to="Control/HBoxContainer/previous" method="_on_pressed"]
+[connection signal="button_down" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_button_down"]
+[connection signal="button_up" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_button_up"]
+[connection signal="pressed" from="Control/HBoxContainer/next" to="Control/HBoxContainer/next" method="_on_pressed"]
+[connection signal="pressed" from="Control/submitIP" to="Control/submitIP" method="_on_pressed"]
+[connection signal="timeout" from="Control/Label/Timer" to="Control/submitIP" method="_on_timer_timeout"]
+[connection signal="pressed" from="Control/eraseIp" to="Control/submitIP" method="_on_erase_ip_pressed"]
