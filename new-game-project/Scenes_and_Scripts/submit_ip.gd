@@ -21,7 +21,7 @@ func _process(delta: float) -> void:
 
 func _on_pressed() -> void:
 	var text_content = text_edit.get_text()
-	text_edit.text = ""
+	text_edit.text = "" 					# resetting the value of the textbox
 	if check_ip(text_content):
 		next.peer.set_dest_address(text_content,next.PORT)
 		previous.peer.set_dest_address(text_content,previous.PORT)
@@ -49,7 +49,6 @@ func _on_timer_timeout() -> void:
 
 
 func _on_erase_ip_pressed() -> void:
-		next.peer.set_dest_address("",next.PORT)
-		previous.peer.set_dest_address("",next.PORT)
-		quit.peer.set_dest_address("",next.PORT)
-		laseractivator.peer.set_dest_address("",next.PORT)
+	for button in [next, previous, quit, laseractivator]:
+		button.peer.set_dest_address("0.0.0.0", button.PORT)
+		button.IP_ADDRESS = ""
