@@ -16,18 +16,14 @@ cursor_is_shown = False
 pyautogui.FAILSAFE = False
 ctypes.windll.user32.ShowCursor(False)
 
-#TODO: has too much excessive up and down (triangular) movement that needs to be solved 
-# e.g: when i want to move dead straight left or right, it has to do that and not go up/down as well.
-# more accuracy while spinning
-# more accuracy and similarity to my hand movement (like a real laser pointer)
 
-sensitivity = 900
+sensitivity = 960
 alpha = 0.3
-min_deadzone = 0.37
-max_deadzone = 0.43
+min_deadzone = 0.35
+max_deadzone = 0.45
 smooth_x = 0.0
 smooth_y = 0.0
-
+dominance_ratio = 1.8 
 
 def hide_cursor():
     while ctypes.windll.user32.ShowCursor(False) >= 0:
@@ -76,18 +72,33 @@ while True:
                 smooth_x = (1 - alpha) * smooth_x + alpha * ax
                 smooth_y = (1 - alpha) * smooth_y + alpha * ay
                 
+                
                 if abs(smooth_x) < min_deadzone:
                     smooth_x = 0
                 if abs(smooth_y) < min_deadzone:
                     smooth_y = 0
                     
+                '''    
                 if abs(smooth_x) > max_deadzone:
                     smooth_x *= max_deadzone / abs(smooth_x)
                 if abs(smooth_y) > max_deadzone:
                     smooth_y *= max_deadzone / abs(smooth_y)
-
+                ''' 
+                    
+                
+                if abs(smooth_x) > abs(smooth_y) * dominance_ratio:
+                    smooth_y = 0
+                elif abs(smooth_y) > abs(smooth_x) * dominance_ratio:
+                    smooth_x = 0
+                    
+        
+                smooth_x = max(-max_deadzone, min(max_deadzone, smooth_x))
+                smooth_y = max(-max_deadzone, min(max_deadzone, smooth_y))    
+                
+                
                 x_movement = (smooth_x ** 3) * sensitivity
                 y_movement = (smooth_y ** 3) * sensitivity
+                
                 
                 if abs(x_movement) > 0.5 or abs(y_movement) > 0.5:
                     x, y = pyautogui.position()
@@ -99,6 +110,6 @@ while True:
             
         del message
         
-    time.sleep(0.02)
+    time.sleep(0.017)
     
             

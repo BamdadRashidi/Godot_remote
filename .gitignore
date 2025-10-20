@@ -14,3 +14,9 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# misc
+new-game-project\Icons\*.import
+new-game-project\icon.svg
+new-game-project\icon.svg.import
+new-game-project\exports/
