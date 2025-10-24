@@ -17,8 +17,8 @@ pyautogui.FAILSAFE = False
 ctypes.windll.user32.ShowCursor(False)
 
 
-sensitivity = 1050
-alpha = 0.3
+sensitivity = 1070
+alpha = 0.25
 min_deadzone = 0.35
 max_deadzone = 0.47
 smooth_x = 0.0
