@@ -4,6 +4,8 @@ var peer = PacketPeerUDP.new()
 var can_send = false
 var IP_ADDRESS
 var PORT:int = 4307
+@onready var prevanim: AnimationPlayer = $"../previous/prevanim"
+
 func _ready() -> void:
 	IP_ADDRESS = ""
 	can_send = false
@@ -19,8 +21,10 @@ func _on_button_down() -> void:
 	print('laser on')
 	print(IP_ADDRESS)
 	peer.put_packet("lON".to_utf8_buffer())
-	await get_tree().create_timer(0.07).timeout
+	await get_tree().create_timer(0.045).timeout
 	can_send = true
+	
+
 
 
 func _on_button_up() -> void:

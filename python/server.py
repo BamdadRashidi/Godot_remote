@@ -17,13 +17,13 @@ pyautogui.FAILSAFE = False
 ctypes.windll.user32.ShowCursor(False)
 
 
-sensitivity = 960
+sensitivity = 1050
 alpha = 0.3
 min_deadzone = 0.35
-max_deadzone = 0.45
+max_deadzone = 0.47
 smooth_x = 0.0
 smooth_y = 0.0
-dominance_ratio = 1.8 
+dominance_ratio = 1.6 
 
 def hide_cursor():
     while ctypes.windll.user32.ShowCursor(False) >= 0:
@@ -110,6 +110,6 @@ while True:
             
         del message
         
-    time.sleep(0.017)
+    time.sleep(0.03)
     
             
