@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dyb1u4vqbrjmj"]
+[gd_scene load_steps=14 format=3 uid="uid://dyb1u4vqbrjmj"]
 
 [ext_resource type="Script" path="res://Scenes_and_Scripts/next.gd" id="1_2s7pg"]
 [ext_resource type="Texture2D" uid="uid://bsdr7q4dudi53" path="res://Icons/quit_low.png" id="1_iigok"]
@@ -9,6 +9,8 @@
 [ext_resource type="Script" path="res://Scenes_and_Scripts/laseractivator.gd" id="4_idtk3"]
 [ext_resource type="Texture2D" uid="uid://cgdbhpkdvsyrc" path="res://Icons/next_low.png" id="6_1rujm"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/submit_ip.gd" id="9_tbvx2"]
+[ext_resource type="Texture2D" uid="uid://cjvgwpoflpq2x" path="res://Icons/click.png" id="10_62nby"]
+[ext_resource type="Script" path="res://Scenes_and_Scripts/click.gd" id="11_70b5q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p1tva"]
 bg_color = Color(0, 0.3801, 0.255572, 1)
@@ -104,6 +106,14 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_315sc")
 text = "Erase IP"
 
+[node name="click" type="Button" parent="."]
+offset_left = 107.0
+offset_top = 46.0
+offset_right = 292.0
+offset_bottom = 237.0
+icon = ExtResource("10_62nby")
+script = ExtResource("11_70b5q")
+
 [connection signal="pressed" from="quit" to="quit" method="_on_pressed"]
 [connection signal="pressed" from="Control/HBoxContainer/previous" to="Control/HBoxContainer/previous" method="_on_pressed"]
 [connection signal="button_down" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_button_down"]
@@ -112,3 +122,4 @@ text = "Erase IP"
 [connection signal="pressed" from="Control/submitIP" to="Control/submitIP" method="_on_pressed"]
 [connection signal="timeout" from="Control/Label/Timer" to="Control/submitIP" method="_on_timer_timeout"]
 [connection signal="pressed" from="Control/eraseIp" to="Control/submitIP" method="_on_erase_ip_pressed"]
+[connection signal="pressed" from="click" to="click" method="_on_pressed"]

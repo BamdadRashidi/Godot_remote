@@ -7,12 +7,13 @@ extends Button
 @onready var quit: Button = $"../../quit"
 @onready var label: Label = $"../Label"
 @onready var timer: Timer = $"../Label/Timer"
+@onready var click: Button = $"../../click"
 
 var regex = RegEx.new()
 
 func _ready() -> void:
 	label.visible = false
-	for btn in [next, previous, quit, laseractivator]:
+	for btn in [next, previous, quit, laseractivator, click]:
 		if btn.has_method("load_ip"):
 			btn.peer.set_dest_address(btn.load_ip(),btn.PORT)
 
@@ -27,7 +28,7 @@ func _on_pressed() -> void:
 	text_edit.text = "" 					# resetting the value of the textbox
 	
 	if check_ip(text_content):
-		for btn in [next, previous, quit, laseractivator]:
+		for btn in [next, previous, quit, laseractivator, click]:
 			btn.peer.set_dest_address(text_content,btn.PORT)
 		save_ip(text_content)
 	else:
@@ -53,7 +54,7 @@ func _on_timer_timeout() -> void:
 
 
 func _on_erase_ip_pressed() -> void:
-	for button in [next, previous, quit, laseractivator]:
+	for button in [next, previous, quit, laseractivator, click]:
 		button.peer.set_dest_address("0.0.0.0", button.PORT)
 		button.IP_ADDRESS = ""
 		

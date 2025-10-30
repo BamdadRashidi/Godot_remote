@@ -56,7 +56,11 @@ while True:
             elif message == "previous":
                 print("left")
                 pyautogui.press('left')
-
+                
+            elif message == "Lclick":
+                print("click")
+                pyautogui.click()
+                
             elif message == "lON" and cursor_is_shown == False:
                 print("show")
                 cursor_is_shown = True
