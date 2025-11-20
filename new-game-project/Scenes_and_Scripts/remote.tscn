@@ -118,6 +118,7 @@ script = ExtResource("11_70b5q")
 [connection signal="pressed" from="Control/HBoxContainer/previous" to="Control/HBoxContainer/previous" method="_on_pressed"]
 [connection signal="button_down" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_button_down"]
 [connection signal="button_up" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_button_up"]
+[connection signal="pressed" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_pressed"]
 [connection signal="pressed" from="Control/HBoxContainer/next" to="Control/HBoxContainer/next" method="_on_pressed"]
 [connection signal="pressed" from="Control/submitIP" to="Control/submitIP" method="_on_pressed"]
 [connection signal="timeout" from="Control/Label/Timer" to="Control/submitIP" method="_on_timer_timeout"]
