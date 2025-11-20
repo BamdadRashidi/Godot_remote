@@ -9,7 +9,7 @@ UDP_PORT = 4307
 
 pyautogui.FAILSAFE = False
 
-sensitivity = 130
+sensitivity = 108
 alpha = 0.12
 min_deadzone = 0.12
 max_deadzone = 0.6
@@ -61,8 +61,6 @@ async def handle_message(message: str):
             elif message == "lON" and not cursor_is_shown:
                 cursor_is_shown = True
                 show_cursor()
-
-                # --- FIX FOR FLOATY RESUMING ---
                 smooth_x = 0.0
                 smooth_y = 0.0
                 last_motion = (0, 0, 0)
