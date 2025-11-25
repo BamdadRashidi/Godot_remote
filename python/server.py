@@ -9,7 +9,7 @@ UDP_PORT = 4307
 
 pyautogui.FAILSAFE = False
 
-sensitivity = 108
+sensitivity = 100
 alpha = 0.12
 min_deadzone = 0.12
 max_deadzone = 0.6

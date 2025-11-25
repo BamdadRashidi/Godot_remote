@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="New Game Project"
+config/name="Presentation Remote"
 run/main_scene="res://Scenes_and_Scripts/remote.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
-config/icon="res://icon.svg"
+config/icon="res://Icons/icon.png"
 
 [display]
 
