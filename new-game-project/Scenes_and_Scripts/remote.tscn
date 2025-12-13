@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dyb1u4vqbrjmj"]
+[gd_scene load_steps=15 format=3 uid="uid://dyb1u4vqbrjmj"]
 
 [ext_resource type="Script" path="res://Scenes_and_Scripts/next.gd" id="1_2s7pg"]
 [ext_resource type="Texture2D" uid="uid://bsdr7q4dudi53" path="res://Icons/quit_low.png" id="1_iigok"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cgdbhpkdvsyrc" path="res://Icons/next_low.png" id="6_1rujm"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/submit_ip.gd" id="9_tbvx2"]
 [ext_resource type="Texture2D" uid="uid://cjvgwpoflpq2x" path="res://Icons/click.png" id="10_62nby"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="10_k31g0"]
 [ext_resource type="Script" path="res://Scenes_and_Scripts/click.gd" id="11_70b5q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p1tva"]
@@ -105,6 +106,14 @@ offset_bottom = 1107.0
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_315sc")
 text = "Erase IP"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
+
+[node name="Virtual Joystick" parent="Control/CanvasLayer" instance=ExtResource("10_k31g0")]
+offset_left = 133.0
+offset_top = -924.0
+offset_right = 935.0
+offset_bottom = -243.0
 
 [node name="click" type="Button" parent="."]
 offset_left = 107.0

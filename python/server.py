@@ -11,7 +11,7 @@ pyautogui.FAILSAFE = False
 
 sensitivity = 100
 alpha = 0.12
-min_deadzone = 0.12
+min_deadzone = 0.10
 max_deadzone = 0.6
 accel_power = 1.12
 rotation_damping = 0.02
