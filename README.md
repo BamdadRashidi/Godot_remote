@@ -94,10 +94,10 @@ In this part of the project the following happens:
 |   \---Scenes_and_Scripts
 \---Server Script
 ~~~
-<b>addons:</b> the directory where your custom non-default godot plugins reside such as the virtual joystick plugin. <br>
-<b>Icons:</b> where the graphical icons of the project are. <br>
-<b>Scenes_and_Scripts:</b> Godot uses a scene hierarchy to create its main scenes. similar to how in Flutter everything is a widget, in Godot, everything is a scene. this is the folder where scenes (.tscn files) and their attached scripts (.gd files) are held. Note that there is a lot of small .gd script files. these are pretty much obsolete and are for an older version of the project that used smaller scripts and relied more on Godot Signals. The main script that you are going to be focusing on is going to be ```remote_handler.gd``` . <br>
-<b>Server Script:</b> the directory where the C# server lies in.
+- <b>addons:</b> the directory where your custom non-default godot plugins reside such as the virtual joystick plugin. <br>
+- <b>Icons:</b> where the graphical icons of the project are. <br>
+- <b>Scenes_and_Scripts:</b> Godot uses a scene hierarchy to create its main scenes. similar to how in Flutter everything is a widget, in Godot, everything is a scene. this is the folder where scenes (.tscn files) and their attached scripts (.gd files) are held. Note that there is a lot of small .gd script files. these are pretty much obsolete and are for an older version of the project that used smaller scripts and relied more on Godot Signals. The main script that you are going to be focusing on is going to be ```remote_handler.gd``` . <br>
+- <b>Server Script:</b> the directory where the C# server lies in.
 
 ## How can i contribute?
 To contribute you need: Godot Engine, C#, Android SDK and NDK and the Virtual Joystick plugin for Godot game engine. once you have all these, you are ready to start the project. <br>
