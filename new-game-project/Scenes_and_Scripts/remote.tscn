@@ -1,17 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://dyb1u4vqbrjmj"]
+[gd_scene format=3 uid="uid://dyb1u4vqbrjmj"]
 
-[ext_resource type="Script" path="res://Scenes_and_Scripts/next.gd" id="1_2s7pg"]
 [ext_resource type="Texture2D" uid="uid://bsdr7q4dudi53" path="res://Icons/quit_low.png" id="1_iigok"]
-[ext_resource type="Script" path="res://Scenes_and_Scripts/quit.gd" id="1_mswdg"]
-[ext_resource type="Script" path="res://Scenes_and_Scripts/previous.gd" id="2_q2erf"]
 [ext_resource type="Texture2D" uid="uid://cotpael4pf2rr" path="res://Icons/previous_low.png" id="2_wba4f"]
 [ext_resource type="Texture2D" uid="uid://v10tch8scenv" path="res://Icons/laser_low.png" id="4_ga8st"]
-[ext_resource type="Script" path="res://Scenes_and_Scripts/laseractivator.gd" id="4_idtk3"]
 [ext_resource type="Texture2D" uid="uid://cgdbhpkdvsyrc" path="res://Icons/next_low.png" id="6_1rujm"]
-[ext_resource type="Script" path="res://Scenes_and_Scripts/submit_ip.gd" id="9_tbvx2"]
 [ext_resource type="Texture2D" uid="uid://cjvgwpoflpq2x" path="res://Icons/click.png" id="10_62nby"]
-[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="10_k31g0"]
-[ext_resource type="Script" path="res://Scenes_and_Scripts/click.gd" id="11_70b5q"]
+[ext_resource type="Script" uid="uid://yrhblbwqhprv" path="res://Scenes_and_Scripts/remote_handler.gd" id="13_pmyju"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p1tva"]
 bg_color = Color(0, 0.3801, 0.255572, 1)
@@ -19,24 +13,23 @@ bg_color = Color(0, 0.3801, 0.255572, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_315sc"]
 bg_color = Color(0.758697, 0.60699, 0, 1)
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" unique_id=3010520]
 
-[node name="quit" type="Button" parent="."]
+[node name="quit" type="Button" parent="." unique_id=833896423]
 offset_left = 871.0
 offset_top = 46.0
 offset_right = 1029.0
 offset_bottom = 204.0
 icon = ExtResource("1_iigok")
-script = ExtResource("1_mswdg")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1739451922]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control" unique_id=597636801]
 layout_mode = 0
 offset_left = -6.0
 offset_top = 544.0
@@ -45,34 +38,32 @@ offset_bottom = 801.0
 theme_override_constants/separation = 85
 alignment = 1
 
-[node name="previous" type="Button" parent="Control/HBoxContainer"]
+[node name="previous" type="Button" parent="Control/HBoxContainer" unique_id=1963132401]
 layout_mode = 2
 icon = ExtResource("2_wba4f")
-script = ExtResource("2_q2erf")
 
-[node name="laseractivator" type="Button" parent="Control/HBoxContainer"]
+[node name="laseractivator" type="Button" parent="Control/HBoxContainer" unique_id=782695402]
+visible = false
 layout_mode = 2
 icon = ExtResource("4_ga8st")
-script = ExtResource("4_idtk3")
 
-[node name="next" type="Button" parent="Control/HBoxContainer"]
+[node name="next" type="Button" parent="Control/HBoxContainer" unique_id=920243383]
 layout_mode = 2
 icon = ExtResource("6_1rujm")
-script = ExtResource("1_2s7pg")
 
-[node name="TextEdit" type="TextEdit" parent="Control"]
+[node name="TextEdit" type="TextEdit" parent="Control" unique_id=779188252]
 layout_mode = 0
 offset_left = 71.0
 offset_top = 1003.0
 offset_right = 698.0
 offset_bottom = 1108.0
-theme_override_colors/background_color = Color(1, 1, 1, 1)
-theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.247059)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.247059)
+theme_override_colors/background_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 60
 placeholder_text = "Enter IP address here"
 
-[node name="submitIP" type="Button" parent="Control"]
+[node name="submitIP" type="Button" parent="Control" unique_id=230357278]
 layout_mode = 0
 offset_left = 752.0
 offset_top = 1000.0
@@ -81,9 +72,8 @@ offset_bottom = 1045.0
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_p1tva")
 text = "Submit"
-script = ExtResource("9_tbvx2")
 
-[node name="Label" type="Label" parent="Control"]
+[node name="Label" type="Label" parent="Control" unique_id=269571158]
 layout_mode = 0
 offset_left = 76.0
 offset_top = 857.0
@@ -93,11 +83,11 @@ theme_override_colors/font_color = Color(0.954458, 3.60981e-06, 1.34766e-06, 1)
 theme_override_font_sizes/font_size = 60
 text = "    Insert a valid IP (xxx.xxx.x.x)"
 
-[node name="Timer" type="Timer" parent="Control/Label"]
+[node name="Timer" type="Timer" parent="Control/Label" unique_id=1345885724]
 wait_time = 3.0
 one_shot = true
 
-[node name="eraseIp" type="Button" parent="Control"]
+[node name="eraseIp" type="Button" parent="Control" unique_id=1348745187]
 layout_mode = 0
 offset_left = 753.0
 offset_top = 1057.0
@@ -107,29 +97,33 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_315sc")
 text = "Erase IP"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
-
-[node name="Virtual Joystick" parent="Control/CanvasLayer" instance=ExtResource("10_k31g0")]
-offset_left = 133.0
-offset_top = -924.0
-offset_right = 935.0
-offset_bottom = -243.0
-
-[node name="click" type="Button" parent="."]
+[node name="click" type="Button" parent="." unique_id=776263056]
 offset_left = 107.0
 offset_top = 46.0
 offset_right = 292.0
 offset_bottom = 237.0
 icon = ExtResource("10_62nby")
-script = ExtResource("11_70b5q")
 
-[connection signal="pressed" from="quit" to="quit" method="_on_pressed"]
-[connection signal="pressed" from="Control/HBoxContainer/previous" to="Control/HBoxContainer/previous" method="_on_pressed"]
-[connection signal="button_down" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_button_down"]
-[connection signal="button_up" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_button_up"]
-[connection signal="pressed" from="Control/HBoxContainer/laseractivator" to="Control/HBoxContainer/laseractivator" method="_on_pressed"]
-[connection signal="pressed" from="Control/HBoxContainer/next" to="Control/HBoxContainer/next" method="_on_pressed"]
+[node name="Node2D" type="Node2D" parent="." unique_id=1444265878 node_paths=PackedStringArray("ip_textbox", "errortxt", "next_btn", "prev_btn", "shut_btn", "click_btn", "subtmitBtn", "clearnBtn")]
+script = ExtResource("13_pmyju")
+ip_textbox = NodePath("../Control/TextEdit")
+errortxt = NodePath("../Control/Label")
+next_btn = NodePath("../Control/HBoxContainer/next")
+prev_btn = NodePath("../Control/HBoxContainer/previous")
+shut_btn = NodePath("../quit")
+click_btn = NodePath("../click")
+subtmitBtn = NodePath("../Control/submitIP")
+clearnBtn = NodePath("../Control/eraseIp")
+
+[node name="VirtualJoystick" type="VirtualJoystick" parent="." unique_id=970558991]
+offset_left = 385.0
+offset_top = 1528.0
+offset_right = 649.0
+offset_bottom = 1816.0
+joystick_size = 500.0
+tip_size = 250.0
+action_up = &"ui_down"
+action_down = &"ui_up"
+
 [connection signal="pressed" from="Control/submitIP" to="Control/submitIP" method="_on_pressed"]
 [connection signal="timeout" from="Control/Label/Timer" to="Control/submitIP" method="_on_timer_timeout"]
-[connection signal="pressed" from="Control/eraseIp" to="Control/submitIP" method="_on_erase_ip_pressed"]
-[connection signal="pressed" from="click" to="click" method="_on_pressed"]

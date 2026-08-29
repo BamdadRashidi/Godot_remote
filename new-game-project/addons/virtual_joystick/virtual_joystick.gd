@@ -57,7 +57,7 @@ var _touch_index : int = -1
 
 
 func _ready() -> void:
-	can_send = false
+	can_send = true
 	
 	if ProjectSettings.get_setting("input_devices/pointing/emulate_mouse_from_touch"):
 		printerr("The Project Setting 'emulate_mouse_from_touch' should be set to False")
@@ -69,7 +69,13 @@ func _ready() -> void:
 	
 	if visibility_mode == Visibility_mode.WHEN_TOUCHED:
 		hide()
-
+		
+	var timer = Timer.new()
+	timer.wait_time = 0.022   
+	timer.autostart = true
+	timer.timeout.connect(send_joystick)
+	add_child(timer)
+	
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed:
@@ -157,6 +163,7 @@ func _update_joystick(touch_position: Vector2) -> void:
 func _reset():
 	is_pressed = false
 	output = Vector2.ZERO
+	send_joystick()
 	_touch_index = -1
 	_tip.modulate = _default_color
 	_base.position = _base_default_position
@@ -166,3 +173,20 @@ func _reset():
 		for action in [action_left, action_right, action_down, action_up]:
 			if Input.is_action_pressed(action):
 				Input.action_release(action)
+				
+func send_joystick():
+	var x = output.x
+	var y = output.y
+	var msg = "JOY,%f,%f" % [x, y]
+	peer.put_packet(msg.to_utf8_buffer())
+
+
+func load_ip() -> String:
+	if FileAccess.file_exists("user://Ipaddrsave.dat"):
+		var file = FileAccess.open("user://Ipaddrsave.dat",FileAccess.READ)
+		var ip_string = file.get_as_text()
+		file.close()
+		return ip_string.strip_edges()
+	else:
+		print("no file exists on this path")
+		return "0.0.0.0"

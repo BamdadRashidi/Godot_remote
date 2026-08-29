@@ -20,3 +20,11 @@ new-game-project\Icons\*.import
 new-game-project\icon.svg
 new-game-project\icon.svg.import
 new-game-project\exports/
+
+# python script
+*.py
+server.py
+python/server.py
+
+# exports folder
+new-game-project/exports/
