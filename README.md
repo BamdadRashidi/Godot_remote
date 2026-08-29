@@ -16,7 +16,7 @@ System32.dll library for C# <br>
 
 ## The Project
 ### The Concepts
-1- Networking: This system utilizes UDP connection as speed is far more important than a stable connection.
+1- Networking: This system utilizes UDP connection as speed is far more important than a stable connection. <br>
 2- Data transfer: This system uses a custom fixed-length binary protocol transmitted over UDP. Transferring a 9 byte buffered number instead of JSON. Unlike JSON, this solution is faster due to the fact we are not going to deal with serialization/deserialization overhead and we are going to avoid bandwidth of JSON due to us omitting human-readable aspect of data transferring because this solution transfers data at a fairly low level. We also avoid JSON bugs such as empty JSONs and such since a malformed package can be omitted.
 
 This number can be split into 3 sections:
@@ -40,22 +40,27 @@ There are Enums in both parts of the project that determine the request type. Th
 Note that as you see above, the 9 byte number is binary.
 
 ### Godot side
-This side of the project focuses on the frontend aspect. This side utilizes a monolithic script in which all the following actions happen:
-1- IP address validation using regex.
-2- Sending the right request as a 9 byte number.
+This side of the project focuses on the frontend aspect. This side utilizes a monolithic script in which all the following actions happen: <br>
+1- IP address validation using regex. <br>
+2- Sending the right request as a 9 byte number. <br>
 3- Button signal management.
 
-There are multiple buttons to use:
-1- The red button with a white cross which acts as the ESC key (more on this in the C# section)
-2- The green button which acts as the left click
-3- The left and right buttons which act as the left and right arrow keys
-4- The joystick which is responsible for mouse movement.
-5- The textbox which is where you type your IP address. (use ipconfig to find the IP address of your system)
-6- The green submit button which sends the content typed inside the textbox to be validated as a valid IP using regex.
+There are multiple buttons to use: <br>
+1- The red button with a white cross which acts as the ESC key. (more on this in the C# section) <br>
+2- The green button which acts as the left click. <br>
+3- The left and right buttons which act as the left and right arrow keys. <br>
+4- The joystick which is responsible for mouse movement. <br>
+5- The textbox which is where you type your IP address. (use ipconfig to find the IP address of your system) <br>
+6- The green submit button which sends the content typed inside the textbox to be validated as a valid IP using regex. <br>
 7- The erase button to remove your IP address from the system. (Note that your IP address will not be saved anywhere and you have to type it manually each time that you want to use the app)
 
 > [!IMPORTANT]
 > Make sure you have downloaded and set up the [Virtual Joystick package for Godot](https://godotengine.org/asset-library/asset/1787) as the engine does not have Joystick support by default.
+
+> [!TIP]
+> within the path of Project > Project Settings > Input Devices > Pointing inside of Godot:
+> For testing make sure to turn on Emulate touch from mouse and turn off Emulate mouse from touch.
+> For Exporting and publishing make sure to turn on Emulate mouse from touch and turn off Emulate touch from mouse.
 
 ### The C# side
 This side of the project focuses on receiving the 9 byte number, processing and at last turning it into a Keyboard/Mouse input.
@@ -67,6 +72,19 @@ In this part of the project the following happens:
 
 > [!IMPORTANT]
 > Since the Server won't shut down properly and you can't stop the server when it is running, you have to find the Process that is responsible for keeping the port of this app and not releasing it. once found, you have to kill that process. (See the Comment at the end of the Server.cs script for more detail)
+
+## Project Architecture
+~~~
++---new-game-project
+|   +---addons
+|   |   \---virtual_joystick
+|   |       +---previews
+|   |       +---test
+|   |       \---textures
+|   +---Icons
+|   \---Scenes_and_Scripts
+\---Server Script
+~~~
 
 ## How can i contribute?
 To contribute you need: Godot Engine, C#, Android SDK and NDK and the Virtual Joystick plugin for Godot game engine. once you have all these, you are ready to start the project. <br>
