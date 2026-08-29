@@ -7,9 +7,9 @@ The Presentation remote is a mobile app that connects to your PC/Laptop using UD
 ## Tech stack and prerequisites
 ### Programming
 - Mobile App buttons and Client Side:
-- <br> ![Godot Engine](https://img.shields.io/badge/godotengine-%23478CBF.svg?style=for-the-badge&logo=godotengine&logoColor=white) <br>
+<br> ![Godot Engine](https://img.shields.io/badge/godotengine-%23478CBF.svg?style=for-the-badge&logo=godotengine&logoColor=white) <br>
 - Backend Server for processing requests and input handling:
-- <br> ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white) <br>
+<br> ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white) <br>
 
 > [!NOTE]
 > Godot has to be version 4.6 Or higher
