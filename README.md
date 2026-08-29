@@ -6,9 +6,9 @@ The Presentation remote is a mobile app that connects to your PC/Laptop using UD
 
 ## Tech stack and prerequisites
 ### Programming
-- Mobile App buttons and Client Side:
+- <b>Mobile App buttons and Client Side:</b>
 <br> ![Godot Engine](https://img.shields.io/badge/godotengine-%23478CBF.svg?style=for-the-badge&logo=godotengine&logoColor=white) <br>
-- Backend Server for processing requests and input handling:
+- <b>Backend Server for processing requests and input handling:</b>
 <br> ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white) <br>
 
 > [!NOTE]
@@ -21,8 +21,8 @@ The Presentation remote is a mobile app that connects to your PC/Laptop using UD
 
 ## The Project
 ### The Concepts
-1- Networking: This system utilizes UDP connection as speed is far more important than a stable connection. <br>
-2- Data transfer: This system uses a custom fixed-length binary protocol transmitted over UDP. Transferring a 9 byte buffered number instead of JSON. Unlike JSON, this solution is faster due to the fact we are not going to deal with serialization/deserialization overhead and we are going to avoid bandwidth of JSON due to us omitting human-readable aspect of data transferring because this solution transfers data at a fairly low level. We also avoid JSON bugs such as empty JSONs and such since a malformed package can be omitted.
+1- <b>Networking:</b> This system utilizes UDP connection as speed is far more important than a stable connection. <br>
+2- <b>Data transfer:</b> This system uses a custom fixed-length binary protocol transmitted over UDP. Transferring a 9 byte buffered number instead of JSON. Unlike JSON, this solution is faster due to the fact we are not going to deal with serialization/deserialization overhead and we are going to avoid bandwidth of JSON due to us omitting human-readable aspect of data transferring because this solution transfers data at a fairly low level. We also avoid JSON bugs such as empty JSONs and such since a malformed package can be omitted.
 
 This number can be split into 3 sections:
 The MSB is anything that has nothing to do with the joystick coordinates. namely the main requests. the 4 bytes after the MSB are the X coordinates of the stick and the last 4 are for the Y coordinates of the stick. here's a schematic:
@@ -76,7 +76,7 @@ In this part of the project the following happens:
 4- Using the user32.dll library in order to gain access to low level OS tasks such as pressing certain keys on the keyboard or moving the mouse without pressing any key or moving the actual mouse.
 
 > [!IMPORTANT]
-> Since the Server won't shut down properly and you can't stop the server when it is running, you have to find the Process that is responsible for keeping the port of this app and not releasing it. once found, you have to kill that process. (See the Comment at the end of the Server.cs script for more detail)
+> Since the Server won't shut down properly and you can't stop the server when it is running, you have to find the Process that is responsible for keeping the port of this app and not releasing it. once found, you have to kill that process. (See the Comment at the end of the ```Server.cs``` script for more detail)
 
 ## Project Architecture
 ~~~
