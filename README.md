@@ -6,8 +6,10 @@ The Presentation remote is a mobile app that connects to your PC/Laptop using UD
 
 ## Tech stack and prerequisites
 ### Programming
-Mobile App buttons and Client Side: Godot (Version 4.6 and higher) <br>
-Backend Server for processing requests and input handling: C#
+Mobile App buttons and Client Side: ![Godot Engine](https://img.shields.io/badge/godotengine-%23478CBF.svg?style=for-the-badge&logo=godotengine&logoColor=white) <br>
+Backend Server for processing requests and input handling: ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white) <br>
+> [!IMPORTANT]
+> Godot has to be version 4.6 Or higher
 
 ### Prerequisites
 Android NDK and SDK <br>
@@ -46,7 +48,7 @@ This side of the project focuses on the frontend aspect. This side utilizes a mo
 3- Button signal management.
 
 There are multiple buttons to use: <br>
-1- The red button with a white cross which acts as the ESC key. (more on this in the C# section) <br>
+1- The red button with a white cross which acts as the ESC key. (more on this in the C# section further down) <br>
 2- The green button which acts as the left click. <br>
 3- The left and right buttons which act as the left and right arrow keys. <br>
 4- The joystick which is responsible for mouse movement. <br>
@@ -55,10 +57,10 @@ There are multiple buttons to use: <br>
 7- The erase button to remove your IP address from the system. (Note that your IP address will not be saved anywhere and you have to type it manually each time that you want to use the app)
 
 > [!IMPORTANT]
-> Make sure you have downloaded and set up the [Virtual Joystick package for Godot](https://godotengine.org/asset-library/asset/1787) as the engine does not have Joystick support by default.
+> Make sure you have downloaded and set up the [Virtual Joystick package for Godot](https://godotengine.org/asset-library/asset/1787) as the engine does not have Joystick support by default. The project itself does have this within the addons directory but in case things go wrong, you can go to the link earlier in this paragraph.
 
 > [!TIP]
-> within the path of Project > Project Settings > Input Devices > Pointing inside of Godot:
+> Within the path of Project > Project Settings > Input Devices > Pointing inside of Godot:
 > For testing make sure to turn on Emulate touch from mouse and turn off Emulate mouse from touch.
 > For Exporting and publishing make sure to turn on Emulate mouse from touch and turn off Emulate touch from mouse.
 
@@ -85,6 +87,10 @@ In this part of the project the following happens:
 |   \---Scenes_and_Scripts
 \---Server Script
 ~~~
+<b>addons:</b> the directory where your custom non-default godot plugins reside such as the virtual joystick plugin. <br>
+<b>Icons:</b> where the graphical icons of the project are. <br>
+<b>Scenes_and_Scripts:</b> Godot uses a scene hierarchy to create its main scenes. similar to how in Flutter everything is a widget, in Godot, everything is a scene. this is the folder where scenes (.tscn files) and their attached scripts (.gd files) are held. Note that there is a lot of small .gd script files. these are pretty much obsolete and are for an older version of the project that used smaller scripts and relied more on Godot Signals. The main script that you are going to be focusing on is going to be ```remote_handler.gd``` . <br>
+<b>Server Script:</b> the directory where the C# server lies in.
 
 ## How can i contribute?
 To contribute you need: Godot Engine, C#, Android SDK and NDK and the Virtual Joystick plugin for Godot game engine. once you have all these, you are ready to start the project. <br>
