@@ -44,7 +44,7 @@ async def handle_message(message: str):
     global last_motion, last_motion_time
 
     try:
-        if message in ("quit", "next", "previous", "Lclick", "lON", "lOFF"):
+        if message in ("quit", "next", "previous", "Lclick", "lON", "lOFF","JOY"):
 
             if message == "quit":
                 pyautogui.press('esc')
@@ -69,7 +69,29 @@ async def handle_message(message: str):
             elif message == "lOFF" and cursor_is_shown:
                 cursor_is_shown = False
                 hide_cursor()
+                
+            elif message.startswith("JOY"):
+                if not cursor_is_shown:
+                    return
 
+                _, x, y = message.split(",")
+                x = float(x)
+                y = float(y)
+
+                speed = 25   
+
+                vx = x * speed
+                vy = y * speed
+
+                if abs(vx) < 0.05:
+                    vx = 0
+                if abs(vy) < 0.05:
+                    vy = 0
+
+                if vx != 0 or vy != 0:
+                    move_cursor_rel(vx, vy)
+                return
+            
             return
 
         if not cursor_is_shown:

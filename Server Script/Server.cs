@@ -10,9 +10,10 @@ public class PresentationReceiver
 {
     // Configuration
     private const int ListenPort = 8888;
-    private const float Deadzone = 0.0f;      // Ignore micro joystick noise
-    private const float MouseSensitivity = 25f; // Adjustable mouse speed
-    private const float SmoothingSpeed = 25f;  // Higher = faster response, lower = smoother
+    private const float Deadzone = 0.02f;      // Very low threshold to filter true zero noise
+    private const float MouseSensitivity = 15f; // Adjustable max mouse speed
+    private const float SmoothingSpeed = 30f;  // Higher = faster response, lower = smoother
+    private const float ResponseExponent = 1.5f; // Curve: >1 gives fine micro-control near center
 
     private static UdpClient _udpListener;
     private static CancellationTokenSource _cts = new CancellationTokenSource();
@@ -22,6 +23,10 @@ public class PresentationReceiver
     private static float _targetY = 0f;
     private static float _currentX = 0f;
     private static float _currentY = 0f;
+
+    // Sub-pixel movement accumulators for micro-movements
+    private static float _accumulatedX = 0f;
+    private static float _accumulatedY = 0f;
 
     // Command Identifiers (must match phone script)
     public enum CommandType : byte
@@ -118,9 +123,25 @@ public class PresentationReceiver
             switch (command)
             {
                 case CommandType.Joystick:
-                    // Invert Y because screen space Y is top-down (0 at top)
-                    _targetX = Math.Abs(x) > Deadzone ? x : 0f;
-                    _targetY = Math.Abs(y) > Deadzone ? -y : 0f; 
+                    // Process raw inputs into target direction and magnitude
+                    float rawMag = MathF.Sqrt(x * x + y * y);
+                    if (rawMag < Deadzone)
+                    {
+                        _targetX = 0f;
+                        _targetY = 0f;
+                    }
+                    else
+                    {
+                        // Normalize direction vector
+                        float dirX = x / rawMag;
+                        float dirY = -y / rawMag; // Invert Y for screen space
+
+                        // Apply non-linear exponential curve for enhanced micro-precision
+                        float curvedMag = MathF.Pow(rawMag, ResponseExponent);
+
+                        _targetX = dirX * curvedMag;
+                        _targetY = dirY * curvedMag;
+                    }
                     break;
 
                 case CommandType.PrevSlide:
@@ -160,15 +181,20 @@ public class PresentationReceiver
             _currentX = Lerp(_currentX, _targetX, SmoothingSpeed * dt);
             _currentY = Lerp(_currentY, _targetY, SmoothingSpeed * dt);
 
-            if (Math.Abs(_currentX) > 0.001f || Math.Abs(_currentY) > 0.001f)
-            {
-                int moveX = (int)(_currentX * MouseSensitivity);
-                int moveY = (int)(_currentY * MouseSensitivity);
+            // Accumulate fractional move values to prevent integer truncation from discarding tiny steps
+            _accumulatedX += _currentX * MouseSensitivity;
+            _accumulatedY += _currentY * MouseSensitivity;
 
-                if (moveX != 0 || moveY != 0)
-                {
-                    VirtualInput.MoveMouseRelative(moveX, moveY);
-                }
+            int moveX = (int)MathF.Round(_accumulatedX);
+            int moveY = (int)MathF.Round(_accumulatedY);
+
+            if (moveX != 0 || moveY != 0)
+            {
+                VirtualInput.MoveMouseRelative(moveX, moveY);
+
+                // Subtract the executed pixel step from the accumulator, keeping residual fractions
+                _accumulatedX -= moveX;
+                _accumulatedY -= moveY;
             }
 
             try
@@ -227,3 +253,14 @@ public static class VirtualInput
         mouse_event(MOUSE_LEFTDOWN | MOUSE_LEFTUP, 0, 0, 0, 0);
     }
 }
+
+
+/*
+    NOTE: when you want to kill the connection, make sure to enter the following two commands in the terminal:
+
+    STEP 1- netstat -ano | findstr :8888 -> this will find the process that runs on the port 8888 which is this server.
+        it will return you the PID for that specific task.
+    STEP 2- taskkill /F /PID <PID number here> -> this will kill the task that we found in step 1.
+
+    after that, you can turn on the server and redo your collection again.
+*/
