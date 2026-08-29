@@ -6,13 +6,13 @@ The Presentation remote is a mobile app that connects to your PC/Laptop using UD
 
 ## Tech stack and prerequisites
 ### Programming
-Mobile App buttons and Client Side: Godot (Version 4.6 and higher)
+Mobile App buttons and Client Side: Godot (Version 4.6 and higher) <br>
 Backend Server for processing requests and input handling: C#
 
 ### Prerequisites
-Android NDK and SDK
-Virtual Joystick plugin for Godot
-System32.dll library for C#
+Android NDK and SDK <br>
+Virtual Joystick plugin for Godot <br>
+System32.dll library for C# <br>
 
 ## The Project
 ### The Concepts
@@ -21,12 +21,12 @@ System32.dll library for C#
 
 This number can be split into 3 sections:
 The MSB is anything that has nothing to do with the joystick coordinates. namely the main requests. the 4 bytes after the MSB are the X coordinates of the stick and the last 4 are for the Y coordinates of the stick.
-There are Enums in both parts of the project that determine the request type. They are as follows:
-        Joystick = 1 => for setting the C# script up to pay attention to the X and Y coordinates and send them to the Mouse cursor.
-        PrevSlide = 2 => to trigger the previous button aka the left arrow key.
-        NextSlide = 3 => to trigger the next button aka the right arrow key.
-        Click = 4 => to trigger the left click.
-        Quit = 5 => to trigger the escape button.
+There are Enums in both parts of the project that determine the request type. They are as follows: <br>
+        Joystick = 1 => for setting the C# script up to pay attention to the X and Y coordinates and send them to the Mouse cursor. <br>
+        PrevSlide = 2 => to trigger the previous button aka the left arrow key. <br>
+        NextSlide = 3 => to trigger the next button aka the right arrow key. <br>
+        Click = 4 => to trigger the left click. <br>
+        Quit = 5 => to trigger the escape button. <br>
 Note that as you see above, the 9 byte number is binary.
 
 ### Godot side
@@ -57,7 +57,7 @@ In this part of the project the following happens:
 > **_NOTE:_**  Since the Server won't shut down properly and you can't stop the server when it is running, you have to find the Process that is responsible for keeping the port of this app and not releasing it. once found, you have to kill that process. (See the Comment at the end of the Server.cs script for more detail)
 
 ## How can i contribute?
-To contribute you need: Godot Engine, C#, Android SDK and NDK and the Virtual Joystick plugin for Godot game engine. once you have all these, you are ready to start the project.
+To contribute you need: Godot Engine, C#, Android SDK and NDK and the Virtual Joystick plugin for Godot game engine. once you have all these, you are ready to start the project. <br>
 Export the project from Godot first. then send it to your phone and make sure you install it. Do not worry if phone security checks say this app is dangerous. it is not.
 feel free to fork and add your own features or polish things.
 ### Things that i suggest to add or improve on: 
@@ -72,6 +72,6 @@ feel free to fork and add your own features or polish things.
 - Whatever that doesn't kill the main purpose of the project which is to create a PowerPoint presentation remote.
 
 ## Credits:
-Icon Artist, Programming, Project concept, tester and designer: MohammadAmin "Bamdad" Rashidi
-Extra help, advice, polish and co-programmer: LLMS
+Icon Artist, Programming, Project concept, tester and designer: MohammadAmin "Bamdad" Rashidi <br>
+Extra help, advice, polish and co-programmer: LLMS <br>
 Small suggestion that changed the whole project for the better: Mr. KNF
