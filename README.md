@@ -45,6 +45,8 @@ There are Enums in both parts of the project that determine the request type. Th
 Note that as you see above, the 9 byte number is binary.
 
 ### Godot side
+![Godot Remote Image](Screenshots/remote.png)
+<br>
 This side of the project focuses on the frontend aspect. This side utilizes a monolithic script in which all the following actions happen: <br>
 1- IP address validation using regex. <br>
 2- Sending the right request as a 9 byte number. <br>
