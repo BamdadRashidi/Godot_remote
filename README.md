@@ -59,7 +59,9 @@ There are multiple buttons to use: <br>
 4- The joystick which is responsible for mouse movement. <br>
 5- The textbox which is where you type your IP address. (use ipconfig to find the IP address of your system) <br>
 6- The green submit button which sends the content typed inside the textbox to be validated as a valid IP using regex. <br>
-7- The erase button to remove your IP address from the system. (Note that your IP address will not be saved anywhere and you have to type it manually each time that you want to use the app)
+7- The erase button to remove your IP address from the system. 
+> [!NOTE]
+> Your IP address will not be saved anywhere and you have to type it manually each time that you want to use the app.
 
 > [!IMPORTANT]
 > Make sure you have downloaded and set up the [Virtual Joystick package for Godot](https://godotengine.org/asset-library/asset/1787) as the engine does not have Joystick support by default. The project itself does have this within the addons directory but in case things go wrong, you can go to the link earlier in this paragraph.
