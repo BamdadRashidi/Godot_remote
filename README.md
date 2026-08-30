@@ -48,6 +48,7 @@ Note that as you see above, the 9 byte number is binary.
 
 ### Godot side
 ![Godot Remote Image](Screenshots/remote.png)
+![Godot Remote Image 2](Screenshots/remote2.png)
 <br>
 This side of the project focuses on the frontend aspect. This side utilizes a monolithic script in which all the following actions happen: <br>
 1- IP address validation using regex. <br>
