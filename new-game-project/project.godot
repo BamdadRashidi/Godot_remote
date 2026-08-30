@@ -35,6 +35,10 @@ enabled=PackedStringArray("res://addons/virtual_joystick/plugin.cfg")
 common/snap_controls_to_pixels=false
 fonts/dynamic_fonts/use_oversampling=false
 
+[input_devices]
+
+sensors/enable_accelerometer=true
+
 [rendering]
 
 renderer/rendering_method="mobile"

@@ -10,10 +10,12 @@ public class PresentationReceiver
 {
     // Configuration
     private const int ListenPort = 8888;
-    private const float Deadzone = 0.02f;      // Very low threshold to filter true zero noise
-    private const float MouseSensitivity = 15f; // Adjustable max mouse speed
-    private const float SmoothingSpeed = 30f;  // Higher = faster response, lower = smoother
+    private const float Deadzone = 0.02f;        // Very low threshold to filter true zero noise
+    private const float MouseSensitivity = 15f;  // Adjustable max mouse speed
+    private const float MouseSensitivityGyro = 0.5f; // Adjustable max mouse speed exclusive for Gyroscope
+    private const float SmoothingSpeed = 30f;   // Higher = faster response, lower = smoother
     private const float ResponseExponent = 1.5f; // Curve: >1 gives fine micro-control near center
+    private const int InputTimeoutMs = 100;     // Timeout after which motion targets drop to zero
 
     private static UdpClient _udpListener;
     private static CancellationTokenSource _cts = new CancellationTokenSource();
@@ -28,6 +30,9 @@ public class PresentationReceiver
     private static float _accumulatedX = 0f;
     private static float _accumulatedY = 0f;
 
+    // Last time a movement packet was processed
+    private static long _lastInputTicks = DateTime.UtcNow.Ticks;
+
     // Command Identifiers (must match phone script)
     public enum CommandType : byte
     {
@@ -35,20 +40,19 @@ public class PresentationReceiver
         PrevSlide = 2,
         NextSlide = 3,
         Click = 4,
-        Quit = 5
+        Quit = 5,
+        Gyro = 6
     }
 
     public static async Task Main(string[] args)
     {
         Console.WriteLine($"Starting Remote Receiver on port {ListenPort}...");
 
-        // Enable socket address reuse to prevent port-lock errors when restarting the script quickly
         Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
         socket.Bind(new IPEndPoint(IPAddress.Any, ListenPort));
         _udpListener = new UdpClient { Client = socket };
 
-        // Bind process exit event to guarantee the socket is closed when the script terminates
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
         Console.CancelKeyPress += (sender, e) =>
         {
@@ -58,10 +62,7 @@ public class PresentationReceiver
 
         try
         {
-            // Start mouse movement loop in parallel
             Task.Run(() => SmoothMouseLoop(_cts.Token));
-
-            // Start UDP network listener
             await ListenAsync(_cts.Token);
         }
         finally
@@ -100,7 +101,7 @@ public class PresentationReceiver
                 ProcessPacket(result.Buffer);
             }
             catch (ObjectDisposedException) { break; }
-            catch (SocketException ex) when (token.IsCancellationRequested) { break; }
+            catch (SocketException) when (token.IsCancellationRequested) { break; }
             catch (Exception ex)
             {
                 Console.WriteLine($"[UDP Error] {ex.Message}");
@@ -108,9 +109,31 @@ public class PresentationReceiver
         }
     }
 
+    public static void MouseCalculator(float x, float y)
+    {
+        // Update input activity timestamp
+        Interlocked.Exchange(ref _lastInputTicks, DateTime.UtcNow.Ticks);
+
+        float rawMag = MathF.Sqrt(x * x + y * y);
+        if (rawMag < Deadzone)
+        {
+            _targetX = 0f;
+            _targetY = 0f;
+        }
+        else
+        {
+            float dirX = x / rawMag;
+            float dirY = -y / rawMag; // Invert Y for screen space
+
+            float curvedMag = MathF.Pow(rawMag, ResponseExponent);
+
+            _targetX = dirX * curvedMag;
+            _targetY = dirY * curvedMag;
+        }
+    }
+
     private static void ProcessPacket(byte[] buffer)
     {
-        // Require at least 9 bytes for our protocol
         if (buffer.Length < 9) return;
 
         using (MemoryStream ms = new MemoryStream(buffer))
@@ -123,25 +146,8 @@ public class PresentationReceiver
             switch (command)
             {
                 case CommandType.Joystick:
-                    // Process raw inputs into target direction and magnitude
-                    float rawMag = MathF.Sqrt(x * x + y * y);
-                    if (rawMag < Deadzone)
-                    {
-                        _targetX = 0f;
-                        _targetY = 0f;
-                    }
-                    else
-                    {
-                        // Normalize direction vector
-                        float dirX = x / rawMag;
-                        float dirY = -y / rawMag; // Invert Y for screen space
-
-                        // Apply non-linear exponential curve for enhanced micro-precision
-                        float curvedMag = MathF.Pow(rawMag, ResponseExponent);
-
-                        _targetX = dirX * curvedMag;
-                        _targetY = dirY * curvedMag;
-                    }
+                case CommandType.Gyro:
+                    MouseCalculator(x, y);
                     break;
 
                 case CommandType.PrevSlide:
@@ -167,9 +173,6 @@ public class PresentationReceiver
         }
     }
 
-    /// <summary>
-    /// Independent update loop (~60Hz) running smoothing interpolation
-    /// </summary>
     private static async Task SmoothMouseLoop(CancellationToken token)
     {
         const int frameDelayMs = 16; // ~60 FPS update rate
@@ -177,11 +180,18 @@ public class PresentationReceiver
 
         while (!token.IsCancellationRequested)
         {
-            // Lerp current speed towards target input for smooth acceleration
+            // Watchdog check: Zero target if no packet received within timeout threshold
+            long elapsedMs = (DateTime.UtcNow.Ticks - Interlocked.Read(ref _lastInputTicks)) / TimeSpan.TicksPerMillisecond;
+            if (elapsedMs > InputTimeoutMs)
+            {
+                _targetX = 0f;
+                _targetY = 0f;
+            }
+
+            // Lerp current speed towards target input
             _currentX = Lerp(_currentX, _targetX, SmoothingSpeed * dt);
             _currentY = Lerp(_currentY, _targetY, SmoothingSpeed * dt);
 
-            // Accumulate fractional move values to prevent integer truncation from discarding tiny steps
             _accumulatedX += _currentX * MouseSensitivity;
             _accumulatedY += _currentY * MouseSensitivity;
 
@@ -191,8 +201,6 @@ public class PresentationReceiver
             if (moveX != 0 || moveY != 0)
             {
                 VirtualInput.MoveMouseRelative(moveX, moveY);
-
-                // Subtract the executed pixel step from the accumulator, keeping residual fractions
                 _accumulatedX -= moveX;
                 _accumulatedY -= moveY;
             }
@@ -215,9 +223,6 @@ public class PresentationReceiver
     }
 }
 
-/// <summary>
-/// Windows API Wrapper for System-Wide Input Injection
-/// </summary>
 public static class VirtualInput
 {
     [DllImport("user32.dll")]
@@ -233,14 +238,13 @@ public static class VirtualInput
     public const byte VK_LEFT = 0x25;
     public const byte VK_RIGHT = 0x27;
 
-    // Mouse controls
     private const int MOUSE_LEFTDOWN = 0x02;
     private const int MOUSE_LEFTUP = 0x04;
 
     public static void PressKey(byte keyCode)
     {
-        keybd_event(keyCode, 0, 0, 0);                  // Key Down
-        keybd_event(keyCode, 0, KEYEVENTF_KEYUP, 0);   // Key Up
+        keybd_event(keyCode, 0, 0, 0);
+        keybd_event(keyCode, 0, KEYEVENTF_KEYUP, 0);
     }
 
     public static void MoveMouseRelative(int deltaX, int deltaY)
@@ -253,14 +257,3 @@ public static class VirtualInput
         mouse_event(MOUSE_LEFTDOWN | MOUSE_LEFTUP, 0, 0, 0, 0);
     }
 }
-
-
-/*
-    NOTE: when you want to kill the connection, make sure to enter the following two commands in the terminal:
-
-    STEP 1- netstat -ano | findstr :8888 -> this will find the process that runs on the port 8888 which is this server.
-        it will return you the PID for that specific task.
-    STEP 2- taskkill /F /PID <PID number here> -> this will kill the task that we found in step 1.
-
-    after that, you can turn on the server and redo your collection again.
-*/

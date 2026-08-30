@@ -43,7 +43,6 @@ layout_mode = 2
 icon = ExtResource("2_wba4f")
 
 [node name="laseractivator" type="Button" parent="Control/HBoxContainer" unique_id=782695402]
-visible = false
 layout_mode = 2
 icon = ExtResource("4_ga8st")
 
@@ -104,7 +103,7 @@ offset_right = 292.0
 offset_bottom = 237.0
 icon = ExtResource("10_62nby")
 
-[node name="Node2D" type="Node2D" parent="." unique_id=1444265878 node_paths=PackedStringArray("ip_textbox", "errortxt", "next_btn", "prev_btn", "shut_btn", "click_btn", "subtmitBtn", "clearnBtn")]
+[node name="Node2D" type="Node2D" parent="." unique_id=1444265878 node_paths=PackedStringArray("ip_textbox", "errortxt", "next_btn", "prev_btn", "shut_btn", "click_btn", "subtmitBtn", "clearnBtn", "gyroBtn")]
 script = ExtResource("13_pmyju")
 ip_textbox = NodePath("../Control/TextEdit")
 errortxt = NodePath("../Control/Label")
@@ -114,6 +113,7 @@ shut_btn = NodePath("../quit")
 click_btn = NodePath("../click")
 subtmitBtn = NodePath("../Control/submitIP")
 clearnBtn = NodePath("../Control/eraseIp")
+gyroBtn = NodePath("../Control/HBoxContainer/laseractivator")
 
 [node name="VirtualJoystick" type="VirtualJoystick" parent="." unique_id=970558991]
 offset_left = 385.0

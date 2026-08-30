@@ -4,12 +4,15 @@ extends Node
 # Singleton instance
 static var instance: Connector
 
+var GyroOn: bool = false
+
 enum CommandType {
 	JOYSTICK = 1,
 	PREV = 2,
 	NEXT = 3,
 	CLICK = 4,
-	QUIT = 5
+	QUIT = 5,
+	Gyro = 6
 }
 
 @export var port: int = 8888
@@ -23,6 +26,7 @@ enum CommandType {
 @export var click_btn: Button
 @export var subtmitBtn: Button
 @export var clearnBtn: Button
+@export var gyroBtn: Button
 
 @export_group("Input Action Map Names")
 @export var action_left: StringName = &"ui_left"
@@ -37,6 +41,7 @@ var udp_peer: PacketPeerUDP
 var stream_buffer: StreamPeerBuffer
 
 var last_sent_input: Vector2 = Vector2.ZERO
+var last_sent_input_gyro: Vector2 = Vector2.ZERO
 @export var sending_threshold_sq: float = 0.0001 # (0.01 ^ 2) avoids expensive sqrt computations
 
 
@@ -63,6 +68,8 @@ func _ready() -> void:
 	# UI Signal Connections
 	if prev_btn: prev_btn.pressed.connect(_on_previous_click)
 	if next_btn: next_btn.pressed.connect(_on_next_click)
+	if gyroBtn: gyroBtn.button_down.connect(_on_gyro_click)
+	if gyroBtn: gyroBtn.button_up.connect(_on_gyro_release)
 	if click_btn: click_btn.pressed.connect(_on_left_click)
 	if shut_btn: shut_btn.pressed.connect(_on_quit_click)
 	if subtmitBtn: subtmitBtn.pressed.connect(_on_submit_ip_addr)
@@ -71,34 +78,52 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	# Retrieve direction vector identically to standard character movement controllers
-	var direction := Input.get_vector(action_left, action_right, action_up, action_down)
-
-	if direction != Vector2.ZERO:
-		_process_and_send_joystick(direction)
+	if GyroOn:
+		# Measure real angular velocity around device axes (rad/s)
+		var gyro_rot := Input.get_gyroscope()
+		# gyro_rot.z handles roll, gyro_rot.x handles pitch
+		var direction_gyro := Vector2(gyro_rot.z, -gyro_rot.x)
+		
+		if direction_gyro != Vector2.ZERO:
+			_process_and_send_gyro(direction_gyro)
+		else:
+			if last_sent_input_gyro != Vector2.ZERO:
+				_process_and_send_gyro(Vector2.ZERO)
 	else:
-		# If joystick/input was active last frame but stopped this frame, emit explicit zero packet once
-		if last_sent_input != Vector2.ZERO:
-			_process_and_send_joystick(Vector2.ZERO)
+		# Retrieve direction vector identically to standard character movement controllers
+		var direction := Input.get_vector(action_left, action_right, action_up, action_down)
+
+		if direction != Vector2.ZERO:
+			_process_and_send_joystick(direction)
+		else:
+			# If joystick/input was active last frame but stopped this frame, emit explicit zero packet once
+			if last_sent_input != Vector2.ZERO:
+				_process_and_send_joystick(Vector2.ZERO)
 
 
 # --- JOYSTICK EVALUATION ---
 
 func _process_and_send_joystick(input_vec: Vector2) -> void:
-	# Performance optimization: use distance_squared_to to bypass square root math
 	if input_vec.distance_squared_to(last_sent_input) >= sending_threshold_sq or input_vec == Vector2.ZERO:
 		last_sent_input = input_vec
 		send_joystick(input_vec.x, input_vec.y)
-		print(input_vec.x)
-		print(input_vec.y)
 
+# --- GYROSCOPE EVALUATION ---
 
+func _process_and_send_gyro(input_vec_g: Vector2) -> void:
+	if input_vec_g.distance_squared_to(last_sent_input_gyro) >= sending_threshold_sq or input_vec_g == Vector2.ZERO:
+		last_sent_input_gyro = input_vec_g
+		send_gyro(input_vec_g.x, input_vec_g.y)
+
+	
 # --- NETWORK PACKET HANDLING ---
 
 func send_joystick(x: float, y: float) -> void:
 	_build_and_send_packet(CommandType.JOYSTICK, x, y)
 
-
+func send_gyro(x: float, y: float) -> void:
+	_build_and_send_packet(CommandType.Gyro, x, y)
+	
 func send_command(cmd: CommandType) -> void:
 	_build_and_send_packet(cmd, 0.0, 0.0)
 
@@ -122,20 +147,26 @@ func _build_and_send_packet(cmd: CommandType, x: float, y: float) -> void:
 
 func _on_previous_click() -> void: 
 	send_command(CommandType.PREV)
-	print("Prev")
+
 func _on_next_click() -> void: 
 	send_command(CommandType.NEXT)
-	print("next")
+
 func _on_left_click() -> void: 
 	send_command(CommandType.CLICK)
-	print("click")
+
 func _on_quit_click() -> void: 
 	send_command(CommandType.QUIT)
-	print("esc")
+
+func _on_gyro_click() -> void:
+	GyroOn = true
+
+func _on_gyro_release() -> void:
+	GyroOn = false
+	# Clear gyro velocity state on release
+	_process_and_send_gyro(Vector2.ZERO)
 
 func _on_submit_ip_addr(_new_text: String = "") -> void:
 	if ip_textbox == null: return
-	
 
 	var raw_input: String = ip_textbox.get("text").strip_edges() if ip_textbox.get("text") != null else ""
 
