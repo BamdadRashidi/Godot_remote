@@ -24,7 +24,7 @@ The Presentation remote is a mobile app that connects to your PC/Laptop using UD
 1- <b>Networking:</b> This system utilizes UDP connection as speed is far more important than a stable connection. <br>
 2- <b>Data transfer:</b> This system uses a custom fixed-length binary protocol transmitted over UDP. Transferring a 9 byte buffered number instead of JSON. Unlike JSON, this solution is faster due to the fact we are not going to deal with serialization/deserialization overhead and we are going to avoid bandwidth of JSON due to us omitting human-readable aspect of data transferring because this solution transfers data at a fairly low level. We also avoid JSON bugs such as empty JSONs and such since a malformed package can be omitted.
 
-This number can be split into 3 sections:
+This number can be split into 3 sections: <br>
 The number is little-endian based. <br>
 The MSB is anything that has nothing to do with the joystick/gyroscope coordinates. namely the main requests. the 4 bytes after the MSB are the X coordinates of the stick and the last 4 are for the Y coordinates of the stick. here's a schematic:
 ~~~
