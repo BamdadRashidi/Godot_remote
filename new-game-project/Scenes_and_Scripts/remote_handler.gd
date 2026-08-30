@@ -82,7 +82,7 @@ func _physics_process(_delta: float) -> void:
 		# Measure real angular velocity around device axes (rad/s)
 		var gyro_rot := Input.get_gyroscope()
 		# gyro_rot.z handles roll, gyro_rot.x handles pitch
-		var direction_gyro := Vector2(gyro_rot.z, -gyro_rot.x)
+		var direction_gyro := Vector2(-gyro_rot.z, gyro_rot.x)
 		
 		if direction_gyro != Vector2.ZERO:
 			_process_and_send_gyro(direction_gyro)

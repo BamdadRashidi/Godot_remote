@@ -37,7 +37,7 @@ fonts/dynamic_fonts/use_oversampling=false
 
 [input_devices]
 
-sensors/enable_accelerometer=true
+sensors/enable_gyroscope=true
 
 [rendering]
 
