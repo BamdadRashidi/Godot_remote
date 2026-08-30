@@ -12,7 +12,6 @@ public class PresentationReceiver
     private const int ListenPort = 8888;
     private const float Deadzone = 0.02f;        // Very low threshold to filter true zero noise
     private const float MouseSensitivity = 15f;  // Adjustable max mouse speed
-    private const float MouseSensitivityGyro = 0.5f; // Adjustable max mouse speed exclusive for Gyroscope
     private const float SmoothingSpeed = 30f;   // Higher = faster response, lower = smoother
     private const float ResponseExponent = 1.5f; // Curve: >1 gives fine micro-control near center
     private const int InputTimeoutMs = 100;     // Timeout after which motion targets drop to zero
@@ -257,3 +256,11 @@ public static class VirtualInput
         mouse_event(MOUSE_LEFTDOWN | MOUSE_LEFTUP, 0, 0, 0, 0);
     }
 }
+
+
+/* 
+DO NOT REMOVE THESE COMMENTS
+Since the server will run all the time even when you close terminals or VS code, you need to find the server process and kill it. this can happen with the commands below:
+    Step 1: netstat -ano | findstr :8888 => this will find the process that has taken the port 8888 but has not released it yet and returns its PID.
+    Steo 2: taskkill /F /PID <PID> => this kills the process with the PID that you got from the previous step. insert the PID within the <PID> section of the command.
+*/
