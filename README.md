@@ -25,7 +25,8 @@ The Presentation remote is a mobile app that connects to your PC/Laptop using UD
 2- <b>Data transfer:</b> This system uses a custom fixed-length binary protocol transmitted over UDP. Transferring a 9 byte buffered number instead of JSON. Unlike JSON, this solution is faster due to the fact we are not going to deal with serialization/deserialization overhead and we are going to avoid bandwidth of JSON due to us omitting human-readable aspect of data transferring because this solution transfers data at a fairly low level. We also avoid JSON bugs such as empty JSONs and such since a malformed package can be omitted.
 
 This number can be split into 3 sections:
-The MSB is anything that has nothing to do with the joystick coordinates. namely the main requests. the 4 bytes after the MSB are the X coordinates of the stick and the last 4 are for the Y coordinates of the stick. here's a schematic:
+The number is little-endian based. <br>
+The MSB is anything that has nothing to do with the joystick/gyroscope coordinates. namely the main requests. the 4 bytes after the MSB are the X coordinates of the stick and the last 4 are for the Y coordinates of the stick. here's a schematic:
 ~~~
 ┌────────────┬──────────────────┬──────────────────┐
 │   Command  │        X         │        Y         │
@@ -41,6 +42,7 @@ There are Enums in both parts of the project that determine the request type. Th
         NextSlide = 3 => to trigger the next button aka the right arrow key.
         Click = 4 => to trigger the left click.
         Quit = 5 => to trigger the escape button.
+        Gyro = 6 => to trigger that the gyroscope is active and now in charge of controlling the mouse.
 ~~~
 Note that as you see above, the 9 byte number is binary.
 
@@ -56,17 +58,20 @@ There are multiple buttons to use: <br>
 1- The red button with a white cross which acts as the ESC key. (more on this in the C# section further down) <br>
 2- The green button which acts as the left click. <br>
 3- The left and right buttons which act as the left and right arrow keys. <br>
-4- The joystick which is responsible for mouse movement. <br>
-5- The textbox which is where you type your IP address. (use ipconfig to find the IP address of your system) <br>
-6- The green submit button which sends the content typed inside the textbox to be validated as a valid IP using regex. <br>
-7- The erase button to remove your IP address from the system. 
+4- The button between left and right is to activate the gyroscope. <br>
+5- The joystick which is responsible for mouse movement. <br>
+6- The textbox which is where you type your IP address. (use ipconfig to find the IP address of your system) <br>
+7- The green submit button which sends the content typed inside the textbox to be validated as a valid IP using regex. <br>
+8- The erase button to remove your IP address from the system. 
 > [!NOTE]
 > Your IP address will not be saved anywhere and you have to type it manually each time that you want to use the app.
 
 > [!IMPORTANT]
 > Make sure you have downloaded and set up the [Virtual Joystick package for Godot](https://godotengine.org/asset-library/asset/1787) as the engine does not have Joystick support by default. The project itself does have this within the addons directory but in case things go wrong, you can go to the link earlier in this paragraph.
+> Make sure to activate Enable Gyroscope from Project Settings > Inputs > Sensors.
+> Make sure that within the export settings under the permissions tab, you check everything that is related to the device being able to connect to the internet.
 
-> [!TIP]
+> [!IMPORTANT]
 > Within the path of Project > Project Settings > Input Devices > Pointing inside of Godot:
 > For testing make sure to turn on Emulate touch from mouse and turn off Emulate mouse from touch.
 > For Exporting and publishing make sure to turn on Emulate mouse from touch and turn off Emulate touch from mouse.
@@ -76,7 +81,7 @@ This side of the project focuses on receiving the 9 byte number, processing and 
 In this part of the project the following happens:
 1- Receiving the 9 byte number and breaking it into the aforementioned 3 parts.
 2- Checking the MSB for the right action.
-3- In case the control stick moved, translate it's coordinates and move the mouse cursor accordingly.
+3- In case the control stick or the gyroscope moved, translate it's coordinates and move the mouse cursor accordingly.
 4- Using the user32.dll library in order to gain access to low level OS tasks such as pressing certain keys on the keyboard or moving the mouse without pressing any key or moving the actual mouse.
 
 > [!IMPORTANT]
@@ -104,7 +109,7 @@ To contribute you need: Godot Engine, C#, Android SDK and NDK and the Virtual Jo
 Export the project from Godot first. then send it to your phone and make sure you install it. Do not worry if phone security checks say this app is dangerous. it is not.
 feel free to fork and add your own features or polish things.
 ### Things that i suggest to add or improve on: 
-- Better Joystick control. specially when the stick is not fully tilted
+- Better Joystick/Gyroscope control. specially when the stick is not fully tilted
 - More responsive joystick control
 - A Soundboard
 - More Computer inputs such as the Enter key or right click and so on
