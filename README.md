@@ -45,6 +45,8 @@ There are Enums in both parts of the project that determine the request type. Th
 Note that as you see above, the 9 byte number is binary.
 
 ### Godot side
+![Godot Remote Image](Screenshots/remote.png)
+<br>
 This side of the project focuses on the frontend aspect. This side utilizes a monolithic script in which all the following actions happen: <br>
 1- IP address validation using regex. <br>
 2- Sending the right request as a 9 byte number. <br>
@@ -57,7 +59,9 @@ There are multiple buttons to use: <br>
 4- The joystick which is responsible for mouse movement. <br>
 5- The textbox which is where you type your IP address. (use ipconfig to find the IP address of your system) <br>
 6- The green submit button which sends the content typed inside the textbox to be validated as a valid IP using regex. <br>
-7- The erase button to remove your IP address from the system. (Note that your IP address will not be saved anywhere and you have to type it manually each time that you want to use the app)
+7- The erase button to remove your IP address from the system. 
+> [!NOTE]
+> Your IP address will not be saved anywhere and you have to type it manually each time that you want to use the app.
 
 > [!IMPORTANT]
 > Make sure you have downloaded and set up the [Virtual Joystick package for Godot](https://godotengine.org/asset-library/asset/1787) as the engine does not have Joystick support by default. The project itself does have this within the addons directory but in case things go wrong, you can go to the link earlier in this paragraph.
@@ -90,10 +94,10 @@ In this part of the project the following happens:
 |   \---Scenes_and_Scripts
 \---Server Script
 ~~~
-<b>addons:</b> the directory where your custom non-default godot plugins reside such as the virtual joystick plugin. <br>
-<b>Icons:</b> where the graphical icons of the project are. <br>
-<b>Scenes_and_Scripts:</b> Godot uses a scene hierarchy to create its main scenes. similar to how in Flutter everything is a widget, in Godot, everything is a scene. this is the folder where scenes (.tscn files) and their attached scripts (.gd files) are held. Note that there is a lot of small .gd script files. these are pretty much obsolete and are for an older version of the project that used smaller scripts and relied more on Godot Signals. The main script that you are going to be focusing on is going to be ```remote_handler.gd``` . <br>
-<b>Server Script:</b> the directory where the C# server lies in.
+- <b>addons:</b> the directory where your custom non-default godot plugins reside such as the virtual joystick plugin. <br>
+- <b>Icons:</b> where the graphical icons of the project are. <br>
+- <b>Scenes_and_Scripts:</b> Godot uses a scene hierarchy to create its main scenes. similar to how in Flutter everything is a widget, in Godot, everything is a scene. this is the folder where scenes (.tscn files) and their attached scripts (.gd files) are held. Note that there is a lot of small .gd script files. these are pretty much obsolete and are for an older version of the project that used smaller scripts and relied more on Godot Signals. The main script that you are going to be focusing on is going to be ```remote_handler.gd``` . <br>
+- <b>Server Script:</b> the directory where the C# server lies in.
 
 ## How can i contribute?
 To contribute you need: Godot Engine, C#, Android SDK and NDK and the Virtual Joystick plugin for Godot game engine. once you have all these, you are ready to start the project. <br>
